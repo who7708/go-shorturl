@@ -140,5 +140,13 @@ func (r *RedisCli) ShortlinkInfo(shortUrl string) (interface{}, error) {
 }
 
 func (r *RedisCli) Unshortend(shortUrl string) (string, error) {
-	return "", nil
+	url, err := r.Cli.Get(fmt.Sprintf(ShortlinkKey, shortUrl)).Result()
+
+	if err == redis.Nil {
+		return "", StatusError{404, err}
+	} else if err != nil {
+		return "", err
+	}
+
+	return url, nil
 }
