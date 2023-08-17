@@ -67,7 +67,7 @@ func TestCrateShortLink(t *testing.T) {
 	rw := httptest.NewRecorder()
 	app.Router.ServeHTTP(rw, req)
 	if rw.Code != http.StatusCreated {
-		t.Fatal("期望值：%d, 实际: %d", http.StatusCreated, rw.Code)
+		t.Fatalf("期望值：%d, 实际: %d", http.StatusCreated, rw.Code)
 	}
 
 	resp := struct {
@@ -78,7 +78,7 @@ func TestCrateShortLink(t *testing.T) {
 	}
 
 	if resp.ShortLink != shortUrl {
-		t.Fatal("期望值：%s, 实际: %s", shortUrl, resp.ShortLink)
+		t.Fatalf("期望值：%s, 实际: %s", shortUrl, resp.ShortLink)
 	}
 
 }
@@ -99,6 +99,6 @@ func TestShortLinkRedirect(t *testing.T) {
 	app.Router.ServeHTTP(rw, req)
 
 	if rw.Code != http.StatusTemporaryRedirect {
-		t.Fatal("期望值：%s, 实际: %s", http.StatusTemporaryRedirect, rw.Code)
+		t.Fatalf("期望值：%d, 实际: %d", http.StatusTemporaryRedirect, rw.Code)
 	}
 }
