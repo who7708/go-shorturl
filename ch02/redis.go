@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha1"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -48,6 +49,12 @@ func NewRedisCli(addr string, passwd string, db int) *RedisCli {
 	}
 
 	return &RedisCli{Cli: c}
+}
+
+func toSha1(url string) string {
+	// panic("unimplemented")
+	sha := sha1.New()
+	return string(sha.Sum([]byte(url)))
 }
 
 // 长链生成短链
@@ -115,10 +122,6 @@ func (r *RedisCli) Shorten(url string, expirationInMinutes int64) (string, error
 
 	return shortUrl, nil
 
-}
-
-func toSha1(url string) string {
-	panic("unimplemented")
 }
 
 func (r *RedisCli) ShortlinkInfo(shortUrl string) (interface{}, error) {
