@@ -10,5 +10,6 @@ require (
 
 require (
 	github.com/go-redis/redis v6.15.9+incompatible // indirect
+	github.com/mattheath/base62 v0.0.0-20150408093626-b80cdc656a7a // indirect
 	github.com/redis/go-redis v6.15.9+incompatible // indirect
 )
