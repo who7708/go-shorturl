@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/mock"
+
+	// 导入当前包，fix main.App not found
+	"app"
 )
 
 const (
