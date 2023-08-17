@@ -12,6 +12,7 @@ import (
 // App encapsulates Env, Router and middleware
 type App struct {
 	Router *mux.Router
+	// Middlewares *Middleware
 }
 
 type shortenReq struct {
@@ -28,6 +29,7 @@ func (a *App) Initialize() {
 	// set log formatter
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	a.Router = mux.NewRouter()
+	// a.Middlewares = &Middleware{}
 	a.initializeRoutes()
 }
 
