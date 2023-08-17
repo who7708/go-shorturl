@@ -83,7 +83,7 @@ func (a *App) createShortlink(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("%v\n", req)
 
-	// 调用 存储 处理
+	// 调用短链生成方法
 	s, err := a.Config.S.Shorten(req.URL, req.ExpirationInMinutes)
 	if err != nil {
 		respondWithError(w, err)
@@ -98,8 +98,16 @@ func (a *App) getShortlinkInfo(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("%s\n", s)
 
-	// 测试 RecoverHandler 使用
-	panic(s)
+	// // 测试 RecoverHandler 使用
+	// panic(s)
+
+	// 调用短链详情方法
+	d, err := a.Config.S.ShortlinkInfo(s)
+	if err != nil {
+		respondWithError(w, err)
+	} else {
+		respondWithJSON(w, http.StatusOK, d)
+	}
 }
 
 func (a *App) shortlinkRedirect(w http.ResponseWriter, r *http.Request) {
