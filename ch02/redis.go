@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha1"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
@@ -63,6 +64,8 @@ func toSha1(url string) string {
 // ShortlinkInfo(shortUrl string) (interface{}, error)
 // // 短链还原长链
 // Unshortend(shortUrl string) (string, error)
+
+// 长链生成短链
 func (r *RedisCli) Shorten(url string, expirationInMinutes int64) (string, error) {
 	h := toSha1(url)
 
@@ -124,8 +127,16 @@ func (r *RedisCli) Shorten(url string, expirationInMinutes int64) (string, error
 
 }
 
+// 短链详情
 func (r *RedisCli) ShortlinkInfo(shortUrl string) (interface{}, error) {
-	return "", nil
+	d, err := r.Cli.Get(fmt.Sprintf(ShortlinkDetailKey, shortUrl)).Result()
+
+	if err == redis.Nil {
+		return "", StatusError{404, errors.New("短链不存在")}
+	} else if err != nil {
+		return "", nil
+	}
+	return d, nil
 }
 
 func (r *RedisCli) Unshortend(shortUrl string) (string, error) {
