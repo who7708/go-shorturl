@@ -82,6 +82,14 @@ func (a *App) createShortlink(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	fmt.Printf("%v\n", req)
+
+	// 调用 存储 处理
+	s, err := a.Config.S.Shorten(req.URL, req.ExpirationInMinutes)
+	if err != nil {
+		respondWithError(w, err)
+	} else {
+		respondWithJSON(w, http.StatusCreated, shortlinkResp{Shortlink: s})
+	}
 }
 
 func (a *App) getShortlinkInfo(w http.ResponseWriter, r *http.Request) {
