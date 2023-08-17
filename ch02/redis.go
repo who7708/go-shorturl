@@ -147,6 +147,6 @@ func (r *RedisCli) Unshortend(shortUrl string) (string, error) {
 	} else if err != nil {
 		return "", err
 	}
-
+	fmt.Printf("url: %s\n", url)
 	return url, nil
 }
