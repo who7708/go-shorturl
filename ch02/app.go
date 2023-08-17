@@ -114,6 +114,14 @@ func (a *App) shortlinkRedirect(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	fmt.Printf("%s\n", vars["shortlink"])
+
+	// 获取原地址，并重定向
+	u, err := a.Config.S.Unshortend(vars["shortlink"])
+	if err != nil {
+		respondWithError(w, err)
+	} else {
+		http.Redirect(w, r, u, http.StatusTemporaryRedirect)
+	}
 }
 
 // Run starts listen and server
